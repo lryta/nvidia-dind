@@ -5,7 +5,7 @@ function wait_for_process () {
     local max_time_wait=30
     local process_name="$1"
     local waited_sec=0
-    while ! pgrep "$process_name" >/dev/null && ((waited_sec < max_time_wait)); do
+    while ! cat /var/log/dockerd.err.log | grep 'API listen on' > /dev/null && ((waited_sec < max_time_wait)); do
         INFO "Process $process_name is not running yet. Retrying in 1 seconds"
         INFO "Waited $waited_sec seconds of $max_time_wait seconds"
         sleep 1
